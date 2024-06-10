@@ -1,9 +1,12 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 @Entity
 @Table
@@ -23,8 +26,10 @@ public class User {
 
     private String email;
 
+    @JsonIgnore
     private String password;
 
+//    @JsonIgnore
     @ManyToOne
     private Role role;
 }

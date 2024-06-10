@@ -25,7 +25,7 @@
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li sec:authorize="isAuthenticated()">
-                    <a href="javascript: document.useForm.submit()" class="dropdown-toggle">User:<strong><span sec:authentication="principal.firstName"></span></strong></a>
+                    <a href="javascript: document.useForm.submit()" class="dropdown-toggle">User:<strong><span sec:authentication="principal.firstName">${#authentication.principal.firstName}</span></strong></a>
                     <form name="useForm" th:action="@{'/user/' + ${#authentication.principal.id}}" method="post" th:hidden="true">
                         <input hidden type="submit" value="User"/>
                     </form>
@@ -42,7 +42,7 @@
 <br><br><br><br>
 <div class="container">
     <div class="alert alert-success">
-        Hello <strong><span sec:authentication="principal.username"></span></strong>
+<!--        Hello <strong><span sec:authentication="principal.username"></span></strong>-->
         Login Successful.
     </div>
 </div>

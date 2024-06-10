@@ -5,31 +5,50 @@ import com.example.demo.exception.NotFoundException;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
-@Controller
+@RestController
 public class HomeController {
     @Autowired
     private IUserService iUserService;
 
-    @GetMapping("/login")
+    @GetMapping("homepage")
+    public ResponseEntity<?> index() {
+        return ResponseEntity.ok("Trang khong can dang nhap");
+    }
+
+    @GetMapping("user")
+    public ResponseEntity<?> user() {
+        return ResponseEntity.ok("User");
+    }
+
+    @GetMapping("/dang-nhap")
     public String login() {
+
         return "login";
     }
 
     @GetMapping("/")
     public String home() {
+
         return "index";
     }
 
-    @GetMapping("/home")
+    @GetMapping("/product")
     public String homeIndex() {
+        try {
+        // process
+        } catch (Exception e) {
+
+        }
         return "home";
     }
 

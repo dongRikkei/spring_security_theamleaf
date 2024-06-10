@@ -36,6 +36,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public User save(UserRegistrationDto registrationDto) {
         User user = modelMapper.map(registrationDto, User.class);
+
         // Set password with encrypt
         user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
         // get role from DB
@@ -57,28 +58,19 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<User> userOptional = userRepository.findUserByEmail(email);
-        if (!userOptional.isPresent()) {
-            throw new UsernameNotFoundException("Invalid username or password.");
-        }
-        User user = userOptional.get();
-
-        return new AuthencationUser(
-                    user.getEmail(),
-                    user.getPassword(),
-                    mapRolesToAuthorities(Arrays.asList(user.getRole())),
-                    user.getId(),
-                    user.getFirstName(),
-                    user.getLastName()
-        );
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findUserByEmail(email);
     }
 
-    private List<? extends GrantedAuthority> mapRolesToAuthorities(List<Role> roles) {
-
-        return roles.stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName()))
-                .collect(Collectors.toList());
+    @Override
+    public User findOrCreateUser(String name, String email) {
+        return userRepository.findUserByEmail(email)
+                .orElseGet(() -> {
+                    User user = new User();
+//                    user.setId(facebookId);
+                    user.setLastName(name);
+                    user.setEmail(email);
+                    return userRepository.save(user);
+                });
     }
-
 }
